@@ -11,7 +11,6 @@ import ru.ik.guestpass.repository.CustomerRepository;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -27,13 +26,30 @@ public class CustomerService {
     }
 
     public CustomerResponse getCustomerById(Integer id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Клиент с id: " + id + " не найден"));
+        Customer customer = getCustomerOrThrow(id);
         return customerMapper.toDto(customer);
     }
 
     public CustomerResponse addNewCustomer(CustomerRequest request) {
         Customer savedCustomer = customerRepository.save(customerMapper.toEntity(request));
         return customerMapper.toDto(savedCustomer);
+    }
+
+    public CustomerResponse updateCustomer(Integer id, CustomerRequest request) {
+        Customer customer = getCustomerOrThrow(id);
+        customer.setFirstName(request.firstName());
+        customer.setLastName(request.lastName());
+        Customer updatedCustomer = customerRepository.save(customer);
+        return customerMapper.toDto(updatedCustomer);
+    }
+
+    public void deleteCustomer(Integer id) {
+        Customer customer = getCustomerOrThrow(id);
+        customerRepository.delete(customer);
+    }
+
+    private Customer getCustomerOrThrow(Integer id) {
+        return customerRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Клиент с id: " + id + " не найден"));
     }
 }

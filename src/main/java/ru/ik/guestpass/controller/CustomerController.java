@@ -31,8 +31,16 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerResponse addNewCustomer(@Valid @RequestBody CustomerRequest request) {
         return customerService.addNewCustomer(request);
-
     }
 
+    @PutMapping("/{id}")
+    public CustomerResponse updateCustomer(@PathVariable Integer id, @Valid @RequestBody CustomerRequest request) {
+        return customerService.updateCustomer(id, request);
+    }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomer(@PathVariable Integer id) {
+        customerService.deleteCustomer(id);
+    }
 }

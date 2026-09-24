@@ -76,3 +76,80 @@ POST {{host}}/api/v1/customers
 Content-Type: application/json
 
 {}
+
+### PUT: обновить клиента - 200
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "Updated"
+}
+
+### PUT: несуществующий id - 404
+PUT {{host}}/api/v1/customers/999
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "Updated"
+}
+
+### PUT: id не число - 400
+PUT {{host}}/api/v1/customers/abc
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "Updated"
+}
+
+### PUT: пустое имя - 400
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Updated"
+}
+
+### PUT: передано только имя - 400
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{
+  "firstName": "Ivan"
+}
+
+### PUT: фамилия 101 символ - 400
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
+
+### PUT: пустое тело - 400
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{}
+
+### DELETE: удалить клиента без QR-кода (id 4) - 204
+DELETE {{host}}/api/v1/customers/4
+
+### DELETE: проверить, что клиента 4 больше нет - 404
+GET {{host}}/api/v1/customers/4
+
+### DELETE: удалить клиента 4 повторно - 404
+DELETE {{host}}/api/v1/customers/4
+
+### DELETE: несуществующий id - 404
+DELETE {{host}}/api/v1/customers/999
+
+### DELETE: id не число - 400
+DELETE {{host}}/api/v1/customers/abc
+
+### DELETE: клиент, у которого есть QR-код (id 1) - 204
+DELETE {{host}}/api/v1/customers/1
