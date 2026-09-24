@@ -8,5 +8,5 @@ CREATE TABLE customers (
 -- Одноразовые QR-коды участников (у одного участника может быть много кодов)
 CREATE TABLE qr_codes (
     code        UUID PRIMARY KEY,
-    customer_id INTEGER NOT NULL REFERENCES customers (id)
+    customer_id INTEGER NOT NULL REFERENCES customers (id) ON DELETE CASCADE
 );
