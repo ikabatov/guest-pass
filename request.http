@@ -1,5 +1,78 @@
-### участник по id
-GET http://localhost:8080/api/v1/customers/1
+@host = http://localhost:8080
 
-### участник по id которого нет в бд
-GET http://localhost:8080/api/v1/customers/999
+### GET: все клиенты - 200
+GET {{host}}/api/v1/customers
+
+### GET: клиент по id - 200
+GET {{host}}/api/v1/customers/1
+
+### GET: клиент по несуществующему id - 404
+GET {{host}}/api/v1/customers/999
+
+### POST: валидный клиент - 201
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Igor",
+  "lastName": "Karaganov"
+}
+
+### POST: фамилия ровно 100 символов (граница) - 201
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Igor",
+  "lastName": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
+
+### POST: пустое имя - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Karaganov"
+}
+
+### POST: оба поля пустые - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": ""
+}
+
+### POST: имя из одних пробелов - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "   ",
+  "lastName": "Karaganov"
+}
+
+### POST: фамилия 101 символ - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Igor",
+  "lastName": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
+
+### POST: поле lastName не передано - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Igor"
+}
+
+### POST: пустое тело - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{}
