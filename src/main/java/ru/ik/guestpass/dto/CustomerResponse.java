@@ -1,7 +1,8 @@
 package ru.ik.guestpass.dto;
 
-public record CustomerResponse (
+public record CustomerResponse(
         Integer id,
         String firstName,
-        String lastName) {
+        String lastName
+) {
 }

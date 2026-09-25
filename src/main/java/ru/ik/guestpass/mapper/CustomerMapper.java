@@ -1,6 +1,5 @@
 package ru.ik.guestpass.mapper;
 
-
 import org.springframework.stereotype.Component;
 import ru.ik.guestpass.dto.CustomerRequest;
 import ru.ik.guestpass.dto.CustomerResponse;

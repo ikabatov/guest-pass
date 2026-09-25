@@ -1,13 +1,12 @@
 package ru.ik.guestpass.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import ru.ik.guestpass.dto.ErrorResponse;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.ik.guestpass.dto.ErrorResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidation(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        return fieldErrors.stream().
-                collect(Collectors.toMap(error -> error.getField(), error -> error.getDefaultMessage()));
+        return fieldErrors.stream()
+                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
     }
 }
