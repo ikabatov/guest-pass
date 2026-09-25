@@ -10,9 +10,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "qr_codes")
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class QrCode {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
