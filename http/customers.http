@@ -1,0 +1,76 @@
+@host = http://localhost:8080
+
+### все клиенты - 200
+GET {{host}}/api/v1/customers
+
+### клиент по id - 200
+GET {{host}}/api/v1/customers/1
+
+### несуществующий id - 404
+GET {{host}}/api/v1/customers/999
+
+### id не число - 400
+GET {{host}}/api/v1/customers/abc
+
+### создать клиента - 201
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Igor",
+  "lastName": "Karaganov"
+}
+
+### пустое имя - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Karaganov"
+}
+
+### фамилия 101 символ - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{
+  "firstName": "Igor",
+  "lastName": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
+
+### пустое тело - 400
+POST {{host}}/api/v1/customers
+Content-Type: application/json
+
+{}
+
+### обновить клиента - 200
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "Updated"
+}
+
+### обновить несуществующего - 404
+PUT {{host}}/api/v1/customers/999
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "Updated"
+}
+
+### обновить с пустым телом - 400
+PUT {{host}}/api/v1/customers/1
+Content-Type: application/json
+
+{}
+
+### удалить клиента без QR-кодов (id 4) - 204
+DELETE {{host}}/api/v1/customers/4
+
+### удалить того же клиента повторно - 404
+DELETE {{host}}/api/v1/customers/4

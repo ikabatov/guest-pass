@@ -1,0 +1,89 @@
+@host = http://localhost:8080
+
+### вход по коду - 200, в ответе ФИО
+POST {{host}}/api/v1/qrcodes/entry
+Content-Type: application/json
+
+{
+  "code": "65f7fa23-cf06-4ee4-9012-49a15580f9b8"
+}
+
+### вход тем же кодом повторно - 404 (код одноразовый)
+POST {{host}}/api/v1/qrcodes/entry
+Content-Type: application/json
+
+{
+  "code": "65f7fa23-cf06-4ee4-9012-49a15580f9b8"
+}
+
+### вход с несуществующим кодом - 404
+POST {{host}}/api/v1/qrcodes/entry
+Content-Type: application/json
+
+{
+  "code": "00000000-0000-0000-0000-000000000000"
+}
+
+### вход с пустым телом - 400
+POST {{host}}/api/v1/qrcodes/entry
+Content-Type: application/json
+
+{}
+
+### создать код клиенту 2 - 201
+POST {{host}}/api/v1/qrcodes
+Content-Type: application/json
+
+{
+  "customerId": 2
+}
+
+### создать код несуществующему клиенту - 404
+POST {{host}}/api/v1/qrcodes
+Content-Type: application/json
+
+{
+  "customerId": 999
+}
+
+### создать код с пустым телом - 400
+POST {{host}}/api/v1/qrcodes
+Content-Type: application/json
+
+{}
+
+### переназначить код клиенту 2 - 200
+PUT {{host}}/api/v1/qrcodes/ade2b7c3-a874-408e-8b56-21808707e8c5
+Content-Type: application/json
+
+{
+  "customerId": 2
+}
+
+### переназначить на несуществующего клиента - 404
+PUT {{host}}/api/v1/qrcodes/ade2b7c3-a874-408e-8b56-21808707e8c5
+Content-Type: application/json
+
+{
+  "customerId": 999
+}
+
+### переназначить несуществующий код - 404
+PUT {{host}}/api/v1/qrcodes/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+{
+  "customerId": 2
+}
+
+### удалить код - 204
+DELETE {{host}}/api/v1/qrcodes/659b5b84-fa10-45b6-be7f-0b8c98d39d78
+
+### удалить тот же код повторно - 404
+DELETE {{host}}/api/v1/qrcodes/659b5b84-fa10-45b6-be7f-0b8c98d39d78
+
+### код не UUID - 400
+DELETE {{host}}/api/v1/qrcodes/abc
+
+### удалить клиента с QR-кодами (id 1) - 204, его коды удаляются вместе с ним
+DELETE {{host}}/api/v1/customers/1
