@@ -34,4 +34,10 @@ public class QrCodeController {
     public QrCodeResponse reassignCode(@PathVariable UUID code, @Valid @RequestBody QrCodeRequest request) {
         return qrCodeService.reassignCode(code, request);
     }
+
+    @DeleteMapping("/{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCode(@PathVariable UUID code) {
+        qrCodeService.deleteCode(code);
+    }
 }

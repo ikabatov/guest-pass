@@ -62,6 +62,11 @@ public class QrCodeService {
         }
     }
 
+    public void deleteCode(UUID code) {
+        QrCode qrCode = getCodeOrThrow(code);
+        qrCodeRepository.delete(qrCode);
+    }
+
     private QrCode getCodeOrThrow(UUID code) {
         return qrCodeRepository.findById(code).orElseThrow(
                 () -> new NotFoundException("QR code не найден"));
